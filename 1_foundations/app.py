@@ -30,7 +30,9 @@ def record_unknown_question(question):
 
 record_user_details_json = {
     "name": "record_user_details",
-    "description": "Use this tool to record that a user is interested in being in touch and provided an email address",
+    "description": "Use this tool to record that a user is interested in being in touch and provide contact details." 
+    "If the user seems interested in anything specific (e.g. a project, job, collaboration), try to capture their intent and include it as 'notes' when recording contact details." 
+    "In the case the provide specific details, ask once more for any missing contact details - i.e. 'would you mind sharing your name, role, and who you work for?' but don't press",
     "parameters": {
         "type": "object",
         "properties": {
@@ -41,14 +43,32 @@ record_user_details_json = {
             "name": {
                 "type": "string",
                 "description": "The user's name, if they provided it"
-            }
-            ,
+            },
+            "organization": {
+                "type": "object",
+                "description": "Details about a user's organization (company), if they provided it"
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The organization or company name"
+                    },
+                    "role": {
+                        "type": "string",
+                        "description": "The user's role or job title"
+                    },
+                    "team": {
+                        "type": "string",
+                        "description": "The team, division, or group the user is part of"
+                    }
+                },
+                
+            },
             "notes": {
                 "type": "string",
                 "description": "Any additional information about the conversation that's worth recording to give context"
             }
         },
-        "required": ["email"],
+        "required": [],
         "additionalProperties": False
     }
 }
@@ -77,7 +97,7 @@ class Me:
 
     def __init__(self):
         self.openai = OpenAI()
-        self.name = "Ed Donner"
+        self.name = "Chris Iverson"
         reader = PdfReader("me/linkedin.pdf")
         self.linkedin = ""
         for page in reader.pages:
